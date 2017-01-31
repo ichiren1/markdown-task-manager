@@ -58,8 +58,12 @@ function updateProgressValue(id){
   if(progress !== null){
     progress.value = thisTask.countDoneChildren();
     progress.max = thisTask.children.length;
-    if(thisTask.children.length === 0 && isMainTask(id)){
-      progress.value = thisTask.finished ? 1 : 0;
+    if(thisTask.children.length === 0){
+      if(isMainTask(id)){
+        progress.value = thisTask.finished ? 1 : 0;
+      }else{
+        progress.remove();
+      }
     }
   }
 
