@@ -1,5 +1,15 @@
 # WHAT
-- This is task management system of using markdown
+- This is task management system of using markdown 
+
+## Example
+
+### Markdown
+```
+- [ ] Task
+```
+
+### Preview
+- [ ] Task
 
 ## lang
 - python3.5.0
@@ -9,3 +19,6 @@
 
 ## template engine
 - mako
+
+## demo 
+- https://mtm-ichiren1.herokuapp.com/
