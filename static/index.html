@@ -1,0 +1,37 @@
+<body>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+  <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
+  <script src="/static/src-min/ace.js"></script>
+  <script src="/static/src-min/mode-markdown.js"></script>
+  <script src="/static/js/Task.js"></script>
+  <script src="/static/js/preview.js"></script>
+  <script src="/static/js/markdown.js"></script>
+  <script src="/static/js/general.js"></script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/default.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.2.1/css/bulma.min.css" integrity="sha256-DRcOKg8NK1KkSkcymcGmxOtS/lAn0lHWJXRa15gMHHk=" crossorigin="anonymous" />
+  <link rel="stylesheet" href="/static/css/general.scss" />
+  <nav class="nav has-shadow">
+    <div class="container">
+      <div class="nav-left" id="nav-tabs-wrapper">
+        <span class="nav-item">
+          Markdown Task Management
+        </span>
+        <a class="nav-item is-tab is-active" id="preview">Preview</a>
+        <a class="nav-item is-tab" id="markdown">Markdown</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div id="view-area-wrapper">
+      <div class="view-area active" id="preview-view-area">
+      </div>
+      <div class="view-area" id="markdown-view-area">
+        <div id="markdown-textarea"></div>
+      </div>
+    </div>
+  </div>
+</body>

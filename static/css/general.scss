@@ -1,0 +1,97 @@
+
+#view-area-wrapper {
+  margin: 30px;
+}
+
+.view-area {
+  display: none;
+}
+
+.view-area.active {
+  display: block;
+}
+
+#preview-view-area {
+}
+
+#markdown-textarea {
+  // position: absolute;
+  width: 100%;
+  height: 80%;
+}
+
+h1 {
+  font-size: 60px;
+}
+
+h2 {
+  font-size: 40px;
+}
+
+h3 {
+  font-size: 20px;
+}
+
+input[type="checkbox"] {
+  margin-right: 10px;
+  margin-top: 5px;
+}
+
+.card {
+  margin: 10px 0;
+}
+
+.card-header-title {
+  align-items: center;
+}
+
+.card-content {
+  padding-left: 0;
+}
+
+progress {
+  margin: 0 10px;
+}
+
+.sub-task-wrapper progress {
+}
+
+.sub-task-wrapper {
+  margin-left: 20px;
+}
+
+
+.card {
+  width: 100%;
+}
+
+.progress {
+  width: 20%;
+}
+
+.progress-wrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.icon {
+  color: lightgray;
+  margin: 0 2px;
+  // padding-top: 5px;
+}
+
+.icon:hover {
+  color: black;
+}
+
+.task-name {
+  width: 20%;
+}
+
+.textarea {
+  min-height: 40px;
+  min-width: 70%;
+  width: 70%;
+  display: initial;
+}
