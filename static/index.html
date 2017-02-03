@@ -22,16 +22,23 @@
         <a class="nav-item is-tab is-active" id="preview">Preview</a>
         <a class="nav-item is-tab" id="markdown">Markdown</a>
       </div>
+      <div class="nav-right">
+        <a class="nav-item" id="save-to-browser" title="save to browser"><span class="icon"><i class="fa fa-floppy-o"></i></span></a>
+        <a class="nav-item" id="load-from-browser" title="load from browser"><span class="icon"><i class="fa fa-upload"></i></span></a>
+      </div>
     </div>
   </nav>
-
-  <div class="container">
-    <div id="view-area-wrapper">
-      <div class="view-area active" id="preview-view-area">
-      </div>
-      <div class="view-area" id="markdown-view-area">
-        <div id="markdown-textarea"></div>
+  <main>
+    <div class="container">
+      <div id="view-area-wrapper">
+        <div class="view-area active" id="preview-view-area">
+        </div>
+        <div class="view-area" id="markdown-view-area">
+          <div id="markdown-textarea"></div>
+        </div>
       </div>
     </div>
-  </div>
+    <div class="notification" id="notification">
+    </div>
+  </main>
 </body>

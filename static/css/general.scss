@@ -1,3 +1,13 @@
+main {
+  height: 80%;
+  margin-top: 64px;
+}
+
+.nav {
+  position: fixed;
+  width: 100%;
+  top: 0px;
+}
 
 #view-area-wrapper {
   margin: 30px;
@@ -94,4 +104,11 @@ progress {
   min-width: 70%;
   width: 70%;
   display: initial;
+}
+
+#notification {
+  display: none;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
 }
