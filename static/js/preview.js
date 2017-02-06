@@ -148,7 +148,15 @@ function addChangeHandle(e){
   }else{  // メインタスクのとき
     id = e.target.closest('.main-task').id;
   }
-  taskHash[id].name = e.target.value;
+  if(e.keyCode === 13){  // Enter
+    if(isMainTask(id)){
+      addParentTask();
+    }else{
+      addSubTask(getParentTaskId(id));
+    }
+  }else{
+    taskHash[id].name = e.target.value;
+  }
 }
 
 function removeSubTaskFromHash(task){
@@ -207,7 +215,7 @@ function addSubTask(id, content){
           placeholder: 'Task name',
           value: subTask.name,
           on: {
-            input: function(e){
+            keydown: function(e){
               addChangeHandle(e);
             }
           }
@@ -217,6 +225,13 @@ function addSubTask(id, content){
   );
   getTaskProgress(parentTask.id).max = parentTask.children.length;  // 親のプログレスバーのmaxを変更
   updateDoneTasks(taskHash[getAncestorId(id)]);
+}
+
+function addParentTask(){
+  const newTask = new Task('');
+  taskWrapper.addTask(newTask);
+  taskHash[newTask.id] = newTask;
+  $('#preview-view-area').append(constructionCardFromTask(newTask));
 }
 
 function addComment(id){
@@ -264,10 +279,7 @@ function constructionViewArea(){
       html: "Add Parent Task",
       on: {
         click: function(e){
-          const newTask = new Task('');
-          taskWrapper.addTask(newTask);
-          taskHash[newTask.id] = newTask;
-          $('#preview-view-area').append(constructionCardFromTask(newTask));
+          addParentTask();
         }
       }
     })
@@ -301,7 +313,7 @@ function constructionCardChildrenTask(children){
           placeholder: 'Task name',
           value: c.name,
           on: {
-            input: function(e){
+            keydown: function(e){
               addChangeHandle(e);
             }
           }
@@ -345,7 +357,7 @@ function constructionCardFromTask(task){
             placeholder: 'Task name',
             value: task.name,
             on: {
-              input: function(e){
+              keydown: function(e){
                 addChangeHandle(e);
               }
             }
