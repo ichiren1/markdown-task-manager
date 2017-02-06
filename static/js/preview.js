@@ -148,12 +148,14 @@ function addChangeHandle(e){
   }else{  // メインタスクのとき
     id = e.target.closest('.main-task').id;
   }
-  if(e.keyCode === 13){  // Enter
+  if(e.keyCode === 13 || (e.ctrlKey && e.keyCode == 40) ){  // Enter & ↓
     if(isMainTask(id)){
       addParentTask();
     }else{
-      addSubTask(getParentTaskId(id));
+      addSubTask(getParentTaskId(id), '');
     }
+  }else if(e.ctrlKey && e.keyCode == 39){  // →
+    addSubTask(id, '');
   }else{
     taskHash[id].name = e.target.value;
   }
