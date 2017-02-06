@@ -71,22 +71,26 @@ $(function(){
 
   $('#load-from-browser').on('click', function(){
     const markdown = window.localStorage.getItem(document.location.origin);
-    if(toMarkdownFromTaskWrapper(taskWrapper) == markdown){
-      showNotification('Already lastest version.', 'is-info');
-    }else{
-      if( confirm('Do you want to overwrite?\n\nThere is a possibility that the current information will change') ){
-        taskWrapper = toTaskFromMarkdown( markdown );
-        taskHash = taskWrapper.toHash();
-        constructionViewArea();
-        for(const mainTask of taskWrapper.tasks){
-          updateProgressValue(mainTask.id);
-        }
-        if(toMarkdownFromTaskWrapper(taskWrapper) == markdown){
-          showNotification('Load success!', 'is-success');
-        }else{
-          showNotification('Load failed...\nPlease wait for a while and try again.', 'is-danger');
+    if(markdown){
+      if(toMarkdownFromTaskWrapper(taskWrapper) == markdown){
+        showNotification('Already lastest version.', 'is-info');
+      }else{
+        if( confirm('Do you want to overwrite?\n\nThere is a possibility that the current information will change') ){
+          taskWrapper = toTaskFromMarkdown( markdown );
+          taskHash = taskWrapper.toHash();
+          constructionViewArea();
+          for(const mainTask of taskWrapper.tasks){
+            updateProgressValue(mainTask.id);
+          }
+          if(toMarkdownFromTaskWrapper(taskWrapper) == markdown){
+            showNotification('Load success!', 'is-success');
+          }else{
+            showNotification('Load failed...\nPlease wait for a while and try again.', 'is-danger');
+          }
         }
       }
+    }else{
+      showNotification('Save data not found.', 'is-info');
     }
   });
 });
