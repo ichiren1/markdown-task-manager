@@ -14,10 +14,12 @@ class TaskWrapper {
     this.tasks = this.tasks.filter( (t) => (t.id !== task.id) );
   }
   toHash(){
-    if(this.tasks.length > 1){
-      return this.tasks.reduce((a,b) => $.extend(a.toHash(), b.toHash()) );
-    }else if(this.tasks.length === 1){
-      return this.tasks[0].toHash();
+    if(this.tasks.length > 0){
+      let hash = {};
+      for(const t of this.tasks){
+        hash = $.extend(hash, t.toHash());
+      }
+      return hash;
     }else{
       return {};
     }
