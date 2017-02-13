@@ -99,6 +99,16 @@ progress {
   width: 20%;
 }
 
+.save-name {
+  font-size: 1.2rem;
+}
+
+.updated-at {
+  margin: 0 10px;
+  font-size: 0.8rem;
+  color: #a1a1a1;
+}
+
 .textarea {
   min-height: 40px;
   min-width: 70%;
@@ -111,4 +121,12 @@ progress {
   position: absolute;
   bottom: 20px;
   right: 20px;
+}
+
+label.radio {
+    width: 100%;
+}
+
+.save-name-content {
+  margin: 10px 0;
 }

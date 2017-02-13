@@ -43,5 +43,47 @@
     </div>
     <div class="notification" id="notification">
     </div>
+
+    <div class="modal save-modal">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Choose save name</p>
+        </header>
+        <section class="modal-card-body save-names-content">
+          <div>
+            <label class="radio">
+              <input type="radio" name="save-name" checked>
+              <input placeholder="New save name(optional)" id="new-save-name"/>
+            </label>
+          </div>
+          <div class="saved-name-wrapper">
+          </div>
+        </section>
+        <footer class="modal-card-foot">
+          <a class="button is-success" id="save-submit">Save</a>
+          <a class="button modal-cancel">Cancel</a>
+        </footer>
+      </div>
+      <button class="modal-close"></button>
+    </div>
+
+    <div class="modal load-modal">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Choose load name</p>
+        </header>
+        <section class="modal-card-body load-names-content">
+          <div class="loaded-name-wrapper">
+          </div>
+        </section>
+        <footer class="modal-card-foot">
+          <a class="button is-danger" id="load-submit">Load</a>
+          <a class="button modal-cancel">Cancel</a>
+        </footer>
+      </div>
+      <button class="modal-close"></button>
+    </div>
   </main>
 </body>
