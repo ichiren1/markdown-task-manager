@@ -149,13 +149,17 @@ function addChangeHandle(e){
     id = e.target.closest('.main-task').id;
   }
   if(e.keyCode === 13 || (e.ctrlKey && e.keyCode == 40) ){  // Enter & ↓
+    let newId = '';
     if(isMainTask(id)){
-      addParentTask();
+      newId = addParentTask();
     }else{
-      addSubTask(getParentTaskId(id), '');
+      newId = addSubTask(getParentTaskId(id), '');
     }
+    console.log(newId);
+    $(`#${newId} .task-name`).focus();
   }else if(e.ctrlKey && e.keyCode == 39){  // →
-    addSubTask(id, '');
+    let newId = addSubTask(id, '');
+    $(`#${newId} .task-name`).focus();
   }else{
     taskHash[id].name = e.target.value;
   }
@@ -227,6 +231,7 @@ function addSubTask(id, content){
   );
   getTaskProgress(parentTask.id).max = parentTask.children.length;  // 親のプログレスバーのmaxを変更
   updateDoneTasks(taskHash[getAncestorId(id)]);
+  return subTask.id;  // 生成したサブタスクのIDを返す
 }
 
 function addParentTask(){
@@ -234,6 +239,7 @@ function addParentTask(){
   taskWrapper.addTask(newTask);
   taskHash[newTask.id] = newTask;
   $('#preview-view-area').append(constructionCardFromTask(newTask));
+  return newTask.id;  // 生成したメインタスクのIDを返す
 }
 
 function addComment(id){
