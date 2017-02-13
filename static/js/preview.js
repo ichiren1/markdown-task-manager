@@ -210,6 +210,7 @@ function addSubTask(id, content){
       $('<div></div>', {'class': 'progress-wrapper'})
         .append($('<input />', {
             type: 'checkbox',
+            tabindex: -1,
             on: {
               change: function(e){
                 addCheckHandle(e);
@@ -309,6 +310,7 @@ function constructionCardChildrenTask(children){
       $('<div></div>', { "class": "progress-wrapper" })
         .append( $('<input />', {
           type: "checkbox",
+          tabindex: -1,
           checked: c.finished,
           on: {
             change: function(e){
@@ -353,6 +355,7 @@ function constructionCardFromTask(task){
           $('<div></div>', { "class": "main-task progress-wrapper", id: task.id})
           .append($('<input />', {
             type: "checkbox",
+            tabindex: -1,
             checked: task.finished,
             on: {
               change: function(e){
