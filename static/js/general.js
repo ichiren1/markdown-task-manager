@@ -18,6 +18,8 @@ tasks.children[1].addChildren(subsub2);
 
 taskHash = tasks.toHash();
 
+let saveDataHash = {};
+
 function showNotification(content, addClass){
   $('#notification')
     .removeClass(function(index, className) {
@@ -26,6 +28,102 @@ function showNotification(content, addClass){
     .addClass(addClass)
     .html(content)
     .fadeIn().delay(2000).fadeOut();
+}
+
+function loadSaveData(wrapper){
+  let namesJson = window.localStorage.getItem(document.location.origin);
+  if(namesJson){
+    try {
+      const names = JSON.parse(namesJson);
+      if(names){
+        let saveName = '';
+        let updatedAt = '';
+        let task = null;
+        let nameJson = '';
+        saveDataHash = {};
+        $(wrapper).empty();
+
+        let j = null;
+        for(const n of names){
+          nameJson = window.localStorage.getItem(`${document.location.origin}_${n}`);
+          if(nameJson){
+            j = JSON.parse(nameJson);
+            saveName = j['saveName'];
+            updatedAt = j['updatedAt'];
+            task = toTaskFromMarkdown( j['task'] );
+            saveDataHash[saveName] = task;
+
+            $(wrapper).append(
+              $('<div></div>', { "class": "save-name-content" }).append(
+                $('<label>', { "class": "radio" }).append(
+                  $('<input>', { type: "radio", name: "save-name"})
+                ).append(
+                  $('<span></span>', { "class": "save-name", html: saveName})
+                ).append(
+                  $('<span></span>', { "class": "updated-at is-pulled-right", html:updatedAt })
+                ).append(
+                  $('<span></span>', {
+                    "class": "icon",
+                    id: saveName,
+                    on: {
+                      click: function(e){
+                        delete saveDataHash[this.id];
+                        window.localStorage.setItem( document.location.origin, JSON.stringify(Object.keys(saveDataHash)) );
+                        window.localStorage.removeItem(`${document.location.origin}_${this.id}`);
+                        $(e.target).closest('div').remove();
+                      }
+                    }
+                  }).append(
+                    $('<i>', { "class": "fa fa-times" })
+                  )
+                )
+              )
+            );
+          }
+        }
+      }
+    }catch (e) {
+      const task = namesJson;
+      const saveName = "Save data";
+      const date = new Date();
+      saveDataHash = {};
+      $(wrapper).empty();
+      const updatedAt = `${date.getMonth()+1}/${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+      saveDataHash[saveName] = task;
+      window.localStorage.setItem( `${document.location.origin}_${saveName}`, JSON.stringify({
+        "saveName": saveName,
+        "updatedAt": updatedAt,
+        "task": saveDataHash[saveName] }) );
+      window.localStorage.setItem( document.location.origin, JSON.stringify(Object.keys(saveDataHash)) );
+
+      $(wrapper).append(
+        $('<div></div>', { "class": "save-name-content" }).append(
+          $('<label>', { "class": "radio" }).append(
+            $('<input>', { type: "radio", name: "save-name"})
+          ).append(
+            $('<span></span>', { "class": "save-name", html: saveName})
+          ).append(
+            $('<span></span>', { "class": "updated-at is-pulled-right", html:updatedAt })
+          ).append(
+            $('<span></span>', {
+              "class": "icon",
+              id: saveName,
+              on: {
+                click: function(e){
+                  delete saveDataHash[this.id];
+                  window.localStorage.setItem( document.location.origin, JSON.stringify(Object.keys(saveDataHash)) );
+                  window.localStorage.removeItem(`${document.location.origin}_${this.id}`);
+                  $(e.target).closest('div').remove();
+                }
+              }
+            }).append(
+              $('<i>', { "class": "fa fa-times" })
+            )
+          )
+        )
+      );
+    };
+  }
 }
 
 $(function(){
@@ -59,38 +157,66 @@ $(function(){
   })
 
   $('#save-to-browser').on('click', function(){
-    window.localStorage.setItem(document.location.origin, toMarkdownFromTaskWrapper(taskWrapper));
-    const markdown = window.localStorage.getItem(document.location.origin);
-    if(toMarkdownFromTaskWrapper(taskWrapper) == markdown){
-      showNotification('Save success!', 'is-success');
-    }else{
-      showNotification('Save failed...', 'is-danger');
-    }
-
+    $('.save-modal').addClass('is-active');
+    $('#new-save-name').prev().prop("checked", true);
+    loadSaveData('.saved-name-wrapper');
   });
 
   $('#load-from-browser').on('click', function(){
-    const markdown = window.localStorage.getItem(document.location.origin);
-    if(markdown){
-      if(toMarkdownFromTaskWrapper(taskWrapper) == markdown){
-        showNotification('Already lastest version.', 'is-info');
-      }else{
-        if( confirm('Do you want to overwrite?\n\nThere is a possibility that the current information will change') ){
-          taskWrapper = toTaskFromMarkdown( markdown );
-          taskHash = taskWrapper.toHash();
-          constructionViewArea();
-          for(const mainTask of taskWrapper.tasks){
-            updateProgressValue(mainTask.id);
-          }
-          if(toMarkdownFromTaskWrapper(taskWrapper) == markdown){
-            showNotification('Load success!', 'is-success');
-          }else{
-            showNotification('Load failed...\nPlease wait for a while and try again.', 'is-danger');
-          }
-        }
+    $('.load-modal').addClass('is-active');
+    loadSaveData('.loaded-name-wrapper');
+  });
+
+  $('.modal-background, .modal-cancel, .modal-close').on('click', function(e){
+    $(e.target).closest('.modal').removeClass("is-active");
+  });
+
+  $('#new-save-name').focusin(function(e){
+    $(e.target).prev().prop("checked", true);
+  });
+
+  $('#save-submit').on('click', function(e){
+    let saveName = '';
+    for(const i of $('.save-names-content').find('input[type=radio]')){
+      if(i.checked){
+        saveName = $(i).next().val() || $(i).next().html();
       }
-    }else{
-      showNotification('Save data not found.', 'is-info');
     }
+    const date = new Date();
+    if(saveName === ''){
+      saveName = `${date.getMonth()+1}/${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+    }
+    saveDataHash[saveName] = toMarkdownFromTaskWrapper(taskWrapper);
+    window.localStorage.setItem( `${document.location.origin}_${saveName}`, JSON.stringify({
+      "saveName": saveName,
+      "updatedAt": `${date.getMonth()+1}/${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`,
+      "task": saveDataHash[saveName] }) );
+    window.localStorage.setItem( document.location.origin, JSON.stringify(Object.keys(saveDataHash)) );
+
+    $('#new-save-name').val('');
+    $('.save-modal').removeClass('is-active');
+    showNotification(`"${saveName}" save success!`, 'is-success');window.localStorage.setItem( `${document.location.origin}_${saveName}`, JSON.stringify({
+      "saveName": saveName,
+      "updatedAt": `${date.getMonth()+1}/${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`,
+      "task": saveDataHash[saveName] }) );
+    window.localStorage.setItem( document.location.origin, JSON.stringify(Object.keys(saveDataHash)) );
+  });
+
+  $('#load-submit').on('click', function(e){
+    let saveName = '';
+    for(const i of $('.load-names-content').find('input[type=radio]')){
+      if(i.checked){
+        saveName = $(i).next().html();
+      }
+    }
+    taskWrapper = saveDataHash[saveName];
+    taskHash = taskWrapper.toHash();
+    constructionViewArea();
+    for(const mainTask of taskWrapper.tasks){
+      updateProgressValue(mainTask.id);
+    }
+
+    $('.load-modal').removeClass('is-active');
+    showNotification(`"${saveName}" load success!`, 'is-success');
   });
 });
