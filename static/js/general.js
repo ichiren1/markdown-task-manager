@@ -186,7 +186,12 @@ $(function(){
     if(saveName === ''){
       saveName = `${date.getMonth()+1}/${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
     }
-    saveDataHash[saveName] = toMarkdownFromTaskWrapper(taskWrapper);
+    if($('#preview').hasClass('is-active')){
+      saveDataHash[saveName] = toMarkdownFromTaskWrapper(taskWrapper);
+    }else if($('#markdown').hasClass('is-active')){
+      saveDataHash[saveName] = editor.getValue();
+    }
+
     window.localStorage.setItem( `${document.location.origin}_${saveName}`, JSON.stringify({
       "saveName": saveName,
       "updatedAt": `${date.getMonth()+1}/${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`,
