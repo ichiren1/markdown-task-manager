@@ -19,6 +19,7 @@ tasks.children[1].addChildren(subsub2);
 taskHash = tasks.toHash();
 
 let saveDataHash = {};
+let nowSaveName = '';
 
 function showNotification(content, addClass){
   $('#notification')
@@ -52,11 +53,15 @@ function loadSaveData(wrapper){
             updatedAt = j['updatedAt'];
             task = toTaskFromMarkdown( j['task'] );
             saveDataHash[saveName] = task;
+            let radio = $('<input>', { type: "radio", name: "save-name"});
+            if(nowSaveName === saveName){
+              $(radio).prop("checked", true);
+            }
 
             $(wrapper).append(
               $('<div></div>', { "class": "save-name-content" }).append(
                 $('<label>', { "class": "radio" }).append(
-                  $('<input>', { type: "radio", name: "save-name"})
+                  radio
                 ).append(
                   $('<span></span>', { "class": "save-name", html: saveName})
                 ).append(
@@ -158,7 +163,6 @@ $(function(){
 
   $('#save-to-browser').on('click', function(){
     $('.save-modal').addClass('is-active');
-    $('#new-save-name').prev().prop("checked", true);
     loadSaveData('.saved-name-wrapper');
   });
 
@@ -198,6 +202,7 @@ $(function(){
       "task": saveDataHash[saveName] }) );
     window.localStorage.setItem( document.location.origin, JSON.stringify(Object.keys(saveDataHash)) );
 
+    nowSaveName = saveName;
     $('#new-save-name').val('');
     $('.save-modal').removeClass('is-active');
     showNotification(`"${saveName}" save success!`, 'is-success');window.localStorage.setItem( `${document.location.origin}_${saveName}`, JSON.stringify({
@@ -220,6 +225,7 @@ $(function(){
     for(const mainTask of taskWrapper.tasks){
       updateProgressValue(mainTask.id);
     }
+    nowSaveName = saveName;
 
     $('.load-modal').removeClass('is-active');
     showNotification(`"${saveName}" load success!`, 'is-success');
