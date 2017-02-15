@@ -155,7 +155,6 @@ function addChangeHandle(e){
     }else{
       newId = addSubTask(getParentTaskId(id), '');
     }
-    console.log(newId);
     $(`#${newId} .task-name`).focus();
   }else if(e.ctrlKey && e.keyCode == 39){  // →
     let newId = addSubTask(id, '');
@@ -222,7 +221,7 @@ function addSubTask(id, content){
           placeholder: 'Task name',
           value: subTask.name,
           on: {
-            keydown: function(e){
+            keyup: function(e){
               addChangeHandle(e);
             }
           }
@@ -323,7 +322,7 @@ function constructionCardChildrenTask(children){
           placeholder: 'Task name',
           value: c.name,
           on: {
-            keydown: function(e){
+            keyup: function(e){
               addChangeHandle(e);
             }
           }
@@ -368,7 +367,7 @@ function constructionCardFromTask(task){
             placeholder: 'Task name',
             value: task.name,
             on: {
-              keydown: function(e){
+              keyup: function(e){
                 addChangeHandle(e);
               }
             }
