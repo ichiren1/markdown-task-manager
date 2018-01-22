@@ -148,7 +148,7 @@ function addChangeHandle(e){
   }else{  // メインタスクのとき
     id = e.target.closest('.main-task').id;
   }
-  if(e.keyCode === 13 || (e.ctrlKey && e.keyCode == 40) ){  // Enter & ↓
+  if(e.shiftKey && e.keyCode === 13 || (e.ctrlKey && e.keyCode == 40) ){  // Enter & ↓
     let newId = '';
     if(isMainTask(id)){
       newId = addParentTask();
