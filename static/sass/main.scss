@@ -130,3 +130,9 @@ label.radio {
 .save-name-content {
   margin: 10px 0;
 }
+
+input:checked {
+  & + input {
+    opacity: 0.5;
+  }
+}
